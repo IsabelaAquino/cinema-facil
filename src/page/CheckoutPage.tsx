@@ -1,4 +1,3 @@
-import ChairIcon from '@mui/icons-material/Chair';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Box, Button, Chip, Container, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -33,7 +32,7 @@ export function CheckoutPage({ selectedFilm, showAlert, done }: ICheckoutPagePro
   const fetchBookings = async () => {
     if (selectedSession) {
       try {
-        const data: IBookings[] = await FilmsService.listBookings(selectedFilm.id, selectedSession.session);
+        const data: IBookings[] = await FilmsService.listBookingsIdSession(selectedFilm.id, selectedSession.session);
         
         setBookingSeats(data.flatMap(obj => obj.seats));
       } catch (error) {
@@ -64,7 +63,7 @@ export function CheckoutPage({ selectedFilm, showAlert, done }: ICheckoutPagePro
     const payload = { filmId: selectedFilm.id, session: selectedSession.session, name: bookingName, seats: selectedSeats, value: selectedSession.value * selectedSeats.length };
 
     try {
-      const data = await FilmsService.toBooking(payload);
+      await FilmsService.toBooking(payload);
       showAlert("Reserva efetuada com sucesso!", "success");
       done();
     } catch (error) {
@@ -125,7 +124,7 @@ export function CheckoutPage({ selectedFilm, showAlert, done }: ICheckoutPagePro
                         selectedSession && <Typography>Total: {formatter.format((selectedSeats.length * selectedSession?.value) | 0)}</Typography>
                       }
                     </Box>
-                    <form onSubmit={(e) => handleBookingSubmit(e)}>
+                    <form data-testid="form-booking" onSubmit={(e) => handleBookingSubmit(e)}>
                       <Box display="flex" flexDirection="column" gap={2} >
                         <TextField
                           name='name'

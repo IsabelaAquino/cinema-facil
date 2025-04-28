@@ -1,6 +1,9 @@
 import { createTheme } from "@mui/material";
 
 export const darkTheme = createTheme({
+  typography: {
+    fontFamily: 'Poppins',
+  },
   palette: {
     mode: 'dark',
     primary: {
@@ -9,6 +12,6 @@ export const darkTheme = createTheme({
     background:{
       default: "#131313",
       paper: "#252525"
-    }
+    },
   },
 });
